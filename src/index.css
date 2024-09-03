@@ -17,6 +17,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+input:focus {
+  outline: none!important;
+}
+
+button:focus {
+  outline: none!important;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -31,7 +40,6 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {

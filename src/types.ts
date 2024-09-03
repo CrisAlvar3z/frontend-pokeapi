@@ -17,4 +17,14 @@ export type Pokemon = {
             name: string
         }
     } 
+    stats: any[]
+}
+
+export type PokemonModalProps = {
+    abilities: any[]
+    stats: any[]
+    height: number
+    weight: number
+    showModal: boolean
+    setShowModal: any
 }

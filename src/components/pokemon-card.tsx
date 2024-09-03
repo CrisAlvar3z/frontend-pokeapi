@@ -1,6 +1,6 @@
  
 import { useState } from 'react'
-import { Pokemon } from '../types'
+import { Pokemon, PokemonModalProps } from '../types'
 import { formatPokemonId } from '../utils/pokemon-format-id'
 
 const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
@@ -8,35 +8,33 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
   const [showModal, setShowModal] = useState(false)
 
   return (
-    // CARD FOR POKEMON with tailwindcss
-    <div className="container mx-auto">
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
-            <img className="w-full" src={pokemon.sprites.front_default} alt={pokemon.name} />
-            <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{pokemon.name}</div>
-                <p className="text-gray-700 text-base">
-                    {/* {pokemon.types.map((type: any, index: number) => (
-                        <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{type.type.name}</span>
-                    ))} */}
-                </p>
-                <p className="text-gray-700 text-base">
-                    {formatPokemonId(pokemon.species.id)}
-                </p>
+    <>
+        <section className="container mx-auto hover:translate-y-2 transition-transform" onClick={() => setShowModal(true)}>
+            <div className="max-w-sm rounded overflow-hidden border-1 shadow-lg p-4">
+                <span className="text-left bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{pokemon.species.generation.name.split("-")[1]}</span>
+                <img className="w-48 mx-auto" src={pokemon.sprites.front_default} alt={pokemon.name} />
+                <div className="px-6 py-4">
+                    {/* badge with tailwind to remind generation */}
+                    <div className="font-bold text-xl mb-2">{pokemon.name}</div>
+                    <p className="text-gray-700 text-base">
+                        {/* {pokemon.types.map((type: any, index: number) => (
+                            <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{type.type.name}</span>
+                        ))} */}
+                    </p>
+                    <p className="text-gray-700 text-base">
+                        {formatPokemonId(pokemon.species.id)}
+                    </p>
+                </div>
             </div>
-            <div className="px-6 py-4">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setShowModal(!showModal)}>Abilities</button>
-            </div>
-        </div>
-        <PokemonModal abilities={pokemon.abilities} showModal={showModal} setShowModal={setShowModal} />
-    </div>
+        </section>
+        <PokemonModal abilities={pokemon.abilities} stats={pokemon.stats} height={pokemon.height} weight={pokemon.weight} showModal={showModal} setShowModal={setShowModal} />
+    </>
   )
 }
 
 export default PokemonCard
 
-//modal to show abilities
-
-const PokemonModal = ({ abilities, showModal, setShowModal }: any) => { 
+const PokemonModal = ({ abilities, stats, height, weight, showModal, setShowModal }: PokemonModalProps) => { 
 
   const handleShowModal = () => {
       setShowModal(!showModal)
@@ -54,22 +52,50 @@ const PokemonModal = ({ abilities, showModal, setShowModal }: any) => {
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
                         <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            {/* beautiful distribution for stat, abilities, height and  weight*/}
                             <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                                Abilities
+                                Estadística
                             </h3>
                             <div className="mt-2">
-                                <ul>
-                                    {abilities.map((ability: any, index: number) => (
-                                        <li key={index}>{ability.ability.name}</li>
+                                <p className="text-sm text-gray-500">
+                                    {stats.map((stat: any, index: number) => (
+                                        <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{stat.stat.name}: {stat.base_stat}</span>
                                     ))}
-                                </ul>
+                                </p>
+                            </div>
+                            <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                                Habilidades
+                            </h3>
+                            <div className="mt-2">
+                                <p className="text-sm text-gray-500">
+                                    {abilities.map((ability: any, index: number) => (
+                                        <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{ability.ability.name}</span>
+                                    ))}
+                                </p>
+                            </div>
+                            <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                                Altura
+                            </h3>
+                            <div className="mt-2">
+                                <p className="text-sm text-gray-500">
+                                    {height}
+                                </p>
+                            </div>
+
+                            <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                                Peso
+                            </h3>
+                            <div className="mt-2">
+                                <p className="text-sm text-gray-500">
+                                    {weight}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" onClick={handleShowModal} className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Close
+                    <button type="button" onClick={handleShowModal} className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-500 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cerrar
                     </button>
                 </div>
             </div>

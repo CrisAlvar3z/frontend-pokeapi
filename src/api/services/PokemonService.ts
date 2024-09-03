@@ -25,7 +25,8 @@ export const getPokemonByType: any = async (type: string) => {
             weight: response.data.weight,
             abilities: response.data.abilities,
             sprites: response.data.sprites,
-            species: species.data
+            species: species.data,
+            stats: response.data.stats
         }
 
 

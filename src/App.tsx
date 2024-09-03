@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { getPokemon, getPokemonByType, getPokemonType } from './api/services/PokemonService'
+import { getPokemonByType, getPokemonType } from './api/services/PokemonService'
 import './App.css'
 import { Pokemon } from './types'
-import PokemonCard from './components/pokemon-card'
 import PokemonSearch from './components/pokemon-search'
 import PokemonGalery from './components/pokemon-galery'
 import { Loading } from './components/loading'
@@ -41,14 +40,13 @@ function App() {
 
   return (
     <>
-      <h1> Pokemon API </h1>
-
-      <PokemonSearch pokemonTypes={pokemonTypes} onHandleSearch={handleSearch} />
-
-      {
-        !loading ? pokemons.length > 1 && <PokemonGalery pokemons={pokemons} /> : <Loading />
-      }
-
+      <main className='flex flex-col gap-10'>
+        <h1> Pokemon API </h1>
+        <PokemonSearch pokemonTypes={pokemonTypes} onHandleSearch={handleSearch} />
+        {
+          !loading ? pokemons.length > 1 && <PokemonGalery pokemons={pokemons} /> : <Loading />
+        }
+      </main>
     </>
   )
 }
